@@ -7,19 +7,19 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["service/service.csproj", "service/"]
-COPY ["Business_Logic/Business_Logic.csproj", "Business_Logic/"]
-COPY ["Doctor/Doctor.csproj", "Doctor/"]
-COPY ["Model/Model.csproj", "Model/"]
-RUN dotnet restore "service/service.csproj"
+COPY ["Doctor_service/Doctor_service.csproj", "Doctor_service/"]
+COPY ["Doctor_Business_Logic/Doctor_Business_Logic.csproj", "Doctor_Business_Logic/"]
+COPY ["Doctor_EntityApi/Doctor_fluient_API.csproj", "Doctor_EntityApi/"]
+COPY ["Doctor_Model/Doctor_Model.csproj", "Doctor_Model/"]
+RUN dotnet restore "Doctor_service/Doctor_service.csproj"
 COPY . .
-WORKDIR "/src/service"
-RUN dotnet build "service.csproj" -c Release -o /app/build
+WORKDIR "/src/Doctor_service"
+RUN dotnet build "Doctor_service.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "service.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Doctor_service.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "service.dll"]
+ENTRYPOINT ["dotnet", "Doctor_service.dll"]
