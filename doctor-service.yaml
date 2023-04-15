@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: doctor-api-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: doctor-api-service
