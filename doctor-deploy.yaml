@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doctor-api-service 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: doctor-api-service
+  template:
+    metadata:
+      labels:
+        app: doctor-api-service
+    spec:
+      containers:
+      - name: doctor-api-service
+        image: poseidon2022/doctorservice
+        ports:
+        - containerPort: 80
+        env:
+        - name: TITLE
+          value: "Welcome to Azure Kubernetes Service (AKS)"
